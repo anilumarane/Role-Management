@@ -17,8 +17,8 @@ urlpatterns = [
 
     # question
     path('get_questions', question.get_questions),
-    path('get_question', question.get_question),
-    path('update_role', question.update_question),
+    path('get_question/<int:question_id>', question.get_question),
+    path('update_question/<int:question_id>', question.update_question),
     path('create_question', question.create_question),
     path('delete_role', question.delete_question),
 ]

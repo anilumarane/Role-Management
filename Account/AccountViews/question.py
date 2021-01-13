@@ -15,14 +15,14 @@ def get_questions(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_question(request, role_id):
+def get_question(request, question_id):
     result = IsUserRead(request.user.id)
     if result:
         return exception_handler.error_handling(request)
 
 
     try:
-        question = Question.objects.get(id=role_id)
+        question = Question.objects.get(id=question_id)
     except Question.DoesNotExist:
         exception_handler.error_handling(errMsg='id does not exist', )
     serializer = QuestionSerializer(question)
@@ -31,18 +31,17 @@ def get_question(request, role_id):
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def update_question(request, role_id):
+def update_question(request, question_id):
     result = IsUserUpdate(request.user.id)
     if result:
         return exception_handler.error_handling(request)
 
-
     try:
-        question = Question.objects.get(id=role_id)
+        question = Question.objects.get(id=question_id)
     except Question.DoesNotExist:
-        return exception_handler.error_handling(errMsg='role id does not exist', )
+        return exception_handler.error_handling(errMsg='id does not exist', )
 
-    serializer = QuestionSerializer(question, data=request.data)
+    serializer = QuestionSerializer(question, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return exception_handler.error_handling(data=serializer.data, status_code=200)
