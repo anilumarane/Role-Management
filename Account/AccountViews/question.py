@@ -18,7 +18,7 @@ def get_questions(request):
 def get_question(request, question_id):
     result = IsUserRead(request.user.id)
     if result:
-        return exception_handler.error_handling(request)
+        return exception_handler.error_handling(result)
 
 
     try:
@@ -34,7 +34,7 @@ def get_question(request, question_id):
 def update_question(request, question_id):
     result = IsUserUpdate(request.user.id)
     if result:
-        return exception_handler.error_handling(request)
+        return exception_handler.error_handling(result)
 
     try:
         question = Question.objects.get(id=question_id)
@@ -67,7 +67,7 @@ def create_question(request):
 def delete_question(request, role_id):
     result = IsUserDelete(request.user.id)
     if result:
-        return exception_handler.error_handling(request)
+        return exception_handler.error_handling(result)
     try:
         question = Question.objects.get(id=role_id)
     except Question.DoesNotExist:
